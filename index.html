@@ -49,6 +49,35 @@
 
 </div>
 
+<div id="mainPage" class="hidden p-6">
+
+    <!--Navbar-->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">GitHub Issues Tracker</h1>
+        <div class="flex gap-2">
+            <input id= "searchInput" type="text" placeholder="search issue"
+                class="input input-bordered w-64"/>
+            <button class="btn btn-primary">Search</button>
+
+        </div>
+    </div>
+
+    <!--Tab-->
+
+    <div class="flex gap-4 mb-6">
+        <button class="btn btn-sm tabBtn" onclick="loadIssues('all')">All</button>
+        <button class="btn btn-sm tabBtn" onclick="loadIssues('open')">Open</button>
+        <button class="btn btn-sm tabBtn" onclick="loadIssues('closed')">Closed</button>
+    </div>
+    
+    <!--Issues Grid-->
+    <div id="issuesCounter" 
+        class= "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    </div>
+    
+</div>
+
+
 <script src ="script.js"></script>
     
 </body>
