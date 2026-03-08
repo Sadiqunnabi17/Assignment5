@@ -17,14 +17,16 @@
 
     <!--Login Page-->
     <div id="loginPage" class="bg-white shadow-lg rounded-lg p-8 w-96">
+        <div>
+            <img src="/assets/github-logo.png" alt="logo" class="p-1 rounded-full w-12 h-12">
+            <h1 class="text-2xl font-bold text-center mb-2">
+                GitHub Issues Tracker
+            </h1>
 
-        <h1 class="text-2xl font-bold text-center mb-2">
-            GitHub Issues Tracker
-        </h1>
-
-        <p class="text-gray-500 text-center mb-6">
-            Sign in to continue
-        </p>
+            <p class="text-gray-500 text-center mb-6">
+                Sign in to continue
+            </p>
+        </div>
 
         <input id="username" type="text" placeholder="Username" class="w-full border p-2 mb-3 rounded" />
 
@@ -44,6 +46,7 @@
 
         <!--Navbar-->
         <div class="flex justify-between items-center mb-6">
+            <img src="/assets/github-logo.png" alt="logo" class=" bg-gray-200 p-1 rounded-full w-10 h-10">
             <h1 class="text-2xl font-bold">GitHub Issues Tracker</h1>
             <div class="flex gap-2">
                 <input id="searchInput" type="text" placeholder="search issue" class="input input-bordered w-64" />
@@ -54,10 +57,43 @@
 
         <!--Tab-->
 
-        <div class="flex gap-4 mb-6">
-            <button class="btn btn-sm" onclick="loadIssues('all')">All</button>
-            <button class="btn btn-sm" onclick="loadIssues('open')">Open</button>
-            <button class="btn btn-sm" onclick="loadIssues('closed')">Closed</button>
+        <div class="flex gap-3 mb-6">
+            <button data-type="all"
+                class="filter-btn px-4 py-1 rounded border border-blue-500 text-blue-500 hover:bg-blue-100 transition"
+                onclick="loadIssues('all', this)">All</button>
+            <button data-type="open"
+                class="filter-btn px-4 py-1 rounded border border-green-500 text-green-500 hover:bg-green-100 transition"
+                onclick="loadIssues('open', this)">Open</button>
+            <button data-type="closed"
+                class="filter-btn px-4 py-1 rounded border border-purple-500 text-purple-500 hover:bg-purple-100 transition"
+                onclick="loadIssues('closed', this)">Closed</button>
+        </div>
+
+        <!-- Counter Info-->
+        <div class="mx-auto px-4 mt-6 mb-6 bg-white shadow rounded-lg p-4 flex items-center
+            justify-between">
+            <div class="flex items-center gap-3">
+                <img src="assets/aperture.png" alt="issues" class=" bg-gray-200 p-1 rounded-full w-10 h-10">
+
+                <div>
+
+                    <div class="flex items-center gap-2">
+                        <span id="issueCount" class="text-2xl font-bold text-indigo-600"></span>
+                        <h2 id="issueTitle" class="text-lg font-semibold">Issues</h2>
+                    </div>
+
+                    <p class="text-sm text-gray-500 mt-0.5">Track and Manage Your Project Issues</p>
+
+                </div>
+
+            </div>
+            <!-- Right Side Indicators -->
+            <div class="flex items-center gap-2 text-sm">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                <p class="text-sm text-gray-500">Open</p>
+                <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                <p class="text-sm text-gray-500">Closed</p>
+            </div>
         </div>
 
         <!--Issues Grid-->

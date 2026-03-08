@@ -21,13 +21,116 @@ function login() {
 
 }
 
+function setActiveButton(type, button) {
+
+    const buttons = document.querySelectorAll(".filter-btn");
+
+    buttons.forEach(btn => {
+        btn.classList.remove(
+            "bg-blue-600", "bg-green-600", "bg-purple-600",
+            "text-white"
+        );
+
+        if (btn !== button) {
+            if (btn.dataset.type === "all") {
+                btn.classList.add("hover:bg-blue-100", "text-blue-500", "border-blue-500");
+            }
+
+            if (btn.dataset.type === "open") {
+                btn.classList.add("hover:bg-green-100", "text-green-500", "border-green-500");
+            }
+
+            if (btn.dataset.type === "closed") {
+                btn.classList.add("hover:bg-purple-100", "text-purple-500", "border-purple-500");
+            }
+
+        }
+
+        if (btn === button) {
+            btn.classList.remove(
+                "hover:bg-blue-100",
+                "hover:bg-green-100",
+                "hover:bg-purple-100"
+            );
+        }
+
+    });
+
+
+    if (type === "all") {
+        button.classList.add("bg-blue-600", "text-white");
+    }
+
+    if (type === "open") {
+        button.classList.add("bg-green-600", "text-white");
+    }
+
+    if (type === "closed") {
+        button.classList.add("bg-purple-600", "text-white");
+    }
+}
+
+function updateCounter(type, issues) {
+    let count = 0;
+    let title = "";
+    let colorClass = "";
+
+    if (type === "all") {
+        count = issues.length;
+        title = "All Issues";
+        colorClass = "text-blue-600";
+
+    }
+
+    if (type === "open") {
+        count = issues.filter(i => i.status === "open").length;
+        title = "Open Issues";
+        colorClass = "text-green-600";
+
+    }
+
+    if (type === "closed") {
+        count = issues.filter(i => i.status === "closed").length;
+        title = "Closed Issues";
+        colorClass = "text-purple-600";
+
+    }
+
+    const titleElement = document.getElementById("issueTitle");
+    const countElement = document.getElementById("issueCount");
+
+    // update number
+    countElement.textContent = count;
+
+    // update title text
+    titleElement.textContent = title;
+
+    // remove previous colors
+    titleElement.classList.remove("text-blue-600", "text-green-600", "text-purple-600");
+    countElement.classList.remove("text-blue-600", "text-green-600", "text-purple-600");
+
+    // apply new color
+    titleElement.classList.add(colorClass);
+    countElement.classList.add(colorClass);
+
+    //document.getElementById("issueCount").textContent = count;
+    //document.getElementById("issueTitle").textContent = title;
+}
+
 // Load Issues
 
-async function loadIssues(filter = "all") {
+async function loadIssues(filter = "all", button = null) {
+
+    if (button) {
+        setActiveButton(filter, button);
+
+    }
+
     const response = await fetch(API_URL);
     const data = await response.json();
 
     let issues = data.data;
+    updateCounter(filter, data.data)
 
     if (filter === "open") {
         issues = issues.filter(issues => issues.status === "open");
