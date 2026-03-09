@@ -48,11 +48,14 @@
         <div class="flex justify-between items-center mb-6">
             <img src="/assets/github-logo.png" alt="logo" class=" bg-gray-200 p-1 rounded-full w-10 h-10">
             <h1 class="text-2xl font-bold">GitHub Issues Tracker</h1>
-            <div class="flex gap-2">
-                <input id="searchInput" type="text" placeholder="search issue" class="input input-bordered w-64" />
-                <button onclick="searchIssues()" class="btn btn-primary">Search</button>
 
+            <div class="flex gap-2 mb-6">
+                <input id="searchInput" type="text" placeholder="search issue..."
+                    class="border rounded px-3 py-2 w-64" />
+                <button onclick="searchIssues()" class="bg-green-600 text-white px-4 py-2 rounded shadow shadow-green-300
+                hover:bg-green-700 hover:shadow-green-400 transition">Search</button>
             </div>
+
         </div>
 
         <!--Tab-->
@@ -98,6 +101,62 @@
 
         <!--Issues Grid-->
         <div id="issuesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+
+    </div>
+
+    <!--Issues Modal-->
+
+    <div id="issueModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+
+        <div id="modalCard" class="bg-white w-[540px] rounded-lg shadow-xl p-6">
+
+            <!-- title -->
+            <h2 id="modalTitle" class="text-xl font-bold mb-2"></h2>
+
+            <!-- status -->
+            <div class="flex items-center text-sm text-gray-500 mb-3">
+
+                <span id="modalStatus" class="mr-3"></span>
+
+                <span class ="mx-2">•</span>
+                <span id="modalAuthor"></span>
+
+                <span class="mx-2">•</span>
+                <span id="modalDate"></span>
+
+            </div>
+
+            <!-- tags -->
+            <div id="modalTags" class="flex gap-2 mb-3"></div>
+
+            <!-- description -->
+            <p id="modalDescription" class="text-gray-700 mb-4"></p>
+
+            <!-- assignee + priority -->
+            <div class="flex justify-between items-center bg-gray-50 border p-4 rounded-lg mt-4">
+
+                <!-- Assignee -->
+                <div class="text-sm text-gray-600">
+                    <div class="font-semibold">Assignee:</div>
+                    <div id="modalAssignee"></div>
+                </div>
+
+                <!-- Priority -->
+                <div class="flex flex-col items-center">
+                    <div class="text-sm font-semibold mb-1">Priority</div>
+                    <span id="modalPriority"></span>
+                </div>
+
+            </div>
+
+            <!-- close -->
+            <div class="flex justify-end mt-6">
+                <button onclick="closeModal()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Close
+                </button>
+            </div>
+
         </div>
 
     </div>

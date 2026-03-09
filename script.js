@@ -155,16 +155,19 @@ function renderIssues(issues) {
 
         const card = document.createElement("div");
 
-        let borderColor = "border-blue-500";
+        let borderColor = "border-t-blue-500";
         if (issue.status === "open") {
-            borderColor = "border-green-500";
+            borderColor = "border-t-green-500";
         }
 
         if (issue.status === "closed") {
-            borderColor = "border-purple-500";
+            borderColor = "border-t-purple-500";
         }
 
-        card.className = "bg-white shadow-md rounded p-4 hover:shadow-lg transition";
+        card.className = `bg-white border-t-4 ${borderColor} rounded-lg p-4 shadow-md cursor-pointer hover:shadow-lg transition`;
+        card.onclick = () => openIssueModal(issue.id);
+
+        // card.className = "bg-white shadow-md rounded p-4 hover:shadow-lg transition";
 
         /* Status Icon */
         let statusIcon = "";
@@ -296,18 +299,140 @@ function renderIssues(issues) {
 
 async function searchIssues() {
 
-    const text = document.getElementById("searchInput").value;
+    const input = document.getElementById("searchInput");
+    const searchText = input.value.trim();
+
+    if (!searchText) {
+        const allBtn = document.querySelector('[data-type="all"]');
+        loadIssues("all", allBtn);
+        input.value = "";
+        return;
+    }
 
     const response = await fetch(
-        `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${text}`
+        `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`
     );
 
     const data = await response.json();
 
     renderIssues(data.data);
+    updateCounter("all", data.data);
 
+}
+
+// Issues Modal
+
+async function openIssueModal(id) {
+
+    const response = await fetch(
+        `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
+    );
+
+    const data = await response.json();
+    const issue = data.data;
+
+    document.getElementById("modalTitle").innerText = issue.title;
+
+    const statusEl = document.getElementById("modalStatus");
+    statusEl.innerText = issue.status.toUpperCase();
+
+    if (issue.status === "open") {
+        statusEl.className = "bg-green-600 text-white px-3 py-1 text-sm rounded";
+    } else {
+        statusEl.className = "bg-purple-600 text-white px-3 py-1 text-sm rounded";
+    }
+
+    document.getElementById("modalAuthor").innerText =
+        "Created by " + issue.author;
+
+    document.getElementById("modalDate").innerText =
+        new Date(issue.createdAt).toLocaleDateString();
+
+    document.getElementById("modalDescription").innerText =
+        issue.description;
+
+    const tagsContainer = document.getElementById("modalTags");
+    tagsContainer.innerHTML = "";
+
+    issue.labels.forEach(label => {
+
+        let badgeStyle = "";
+        let icon = "";
+
+        if (label === "bug") {
+            icon = `<i class="fa-solid fa-bug mr-1"></i>`;
+            badgeStyle = "text-red-700 bg-red-200";
+        }
+
+        else if (label === "help wanted") {
+            icon = `<i class="fa-solid fa-hand mr-1"></i>`;
+            badgeStyle = "text-yellow-700 bg-yellow-200";
+        }
+
+        else if (label === "enhancement") {
+            icon = `<i class="fa-solid fa-arrow-up mr-1"></i>`;
+            badgeStyle = "text-green-700 bg-green-200";
+        }
+
+        else if (label === "good first issue") {
+            icon = `<i class="fa-solid fa-seedling mr-1"></i>`;
+            badgeStyle = "text-blue-700 bg-blue-200";
+        }
+
+        else if (label === "documentation") {
+            icon = `<i class="fa-solid fa-book mr-1"></i>`;
+            badgeStyle = "text-purple-700 bg-purple-200";
+        }
+
+        tagsContainer.innerHTML += `
+        <span class="px-2 py-1 rounded text-xs font-semibold flex items-center gap-1 ${badgeStyle}">
+            ${icon} ${label.toUpperCase()}
+        </span>
+    `;
+    });
+
+    document.getElementById("modalAssignee").innerText =
+        issue.assignee || "Unassigned";
+
+    const priorityEl = document.getElementById("modalPriority");
+
+    if (issue.priority === "high") {
+        priorityEl.className = "px-2 py-1 rounded text-red-700 bg-red-200 text-xs font-semibold";
+        priorityEl.innerText = "HIGH";
+    }
+
+    if (issue.priority === "medium") {
+        priorityEl.className = "px-2 py-1 rounded text-yellow-700 bg-yellow-200 text-xs font-semibold";
+        priorityEl.innerText = "MEDIUM";
+    }
+
+    if (issue.priority === "low") {
+        priorityEl.className = "px-2 py-1 rounded text-gray-700 bg-gray-200 text-xs font-semibold";
+        priorityEl.innerText = "LOW";
+    }
+
+    document.getElementById("issueModal").classList.remove("hidden");
+    document.getElementById("issueModal").classList.add("flex");
+}
+
+// CLOSE MODAL
+function closeModal() {
+    const modal = document.getElementById("issueModal");
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
 }
 
 
 // LOAD ISSUES WHEN PAGE STARTS
-loadIssues();
+window.onload = () => {
+    const allBtn = document.querySelector('[data-type="all"]');
+    loadIssues("all", allBtn);
+
+    document.getElementById("searchInput")
+        .addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                searchIssues();
+
+            }
+        });
+};
