@@ -186,11 +186,11 @@ function renderIssues(issues) {
         let statusIcon = "";
 
         if (issue.status === "open") {
-            statusIcon = `<img src="assets/open-status.png" class="w-5 h-5">`;
+            statusIcon = `<img src="open-status.png" class="w-5 h-5">`;
         }
 
         if (issue.status === "closed") {
-            statusIcon = `<img src="assets/closed-status.png" class="w-5 h-5">`;
+            statusIcon = `<img src="closed-status.png" class="w-5 h-5">`;
         }
 
         /* Label Badge */
@@ -244,7 +244,7 @@ function renderIssues(issues) {
         }
 
         if (issue.priority === "low") {
-            priorityBadge = `<span class="px-2 py-1 rounded text-gray-700 bg-gray-200 text-xs font-semibold">LOW</span>`;
+            priorityBadge = `<span class="px-2 py-1 rounded text-gray-800 bg-gray-200 text-xs font-semibold">LOW</span>`;
         }
 
         /* Card HTML */
