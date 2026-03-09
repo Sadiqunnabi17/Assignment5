@@ -1,4 +1,12 @@
 
+function showSpinner() {
+    document.getElementById("spinner").classList.remove("hidden");
+}
+
+function hideSpinner() {
+    document.getElementById("spinner").classList.add("hidden");
+}
+
 const API_URL = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
 // Login Function
@@ -16,7 +24,7 @@ function login() {
     }
 
     else {
-        alert("Invalid credentials");
+        alert("Invalid Credentials");
     }
 
 }
@@ -121,6 +129,8 @@ function updateCounter(type, issues) {
 
 async function loadIssues(filter = "all", button = null) {
 
+    showSpinner();
+
     if (button) {
         setActiveButton(filter, button);
 
@@ -128,6 +138,8 @@ async function loadIssues(filter = "all", button = null) {
 
     const response = await fetch(API_URL);
     const data = await response.json();
+
+    await new Promise(resolve => setTimeout(resolve, 400));
 
     let issues = data.data;
     updateCounter(filter, data.data)
@@ -142,6 +154,7 @@ async function loadIssues(filter = "all", button = null) {
     }
 
     renderIssues(issues);
+    hideSpinner();
 }
 
 // Render Issues
@@ -324,11 +337,17 @@ async function searchIssues() {
 
 async function openIssueModal(id) {
 
+    showSpinner();
+
     const response = await fetch(
         `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
     );
 
     const data = await response.json();
+
+    await new Promise(resolve => setTimeout(resolve, 400));
+
+
     const issue = data.data;
 
     document.getElementById("modalTitle").innerText = issue.title;
@@ -413,6 +432,8 @@ async function openIssueModal(id) {
 
     document.getElementById("issueModal").classList.remove("hidden");
     document.getElementById("issueModal").classList.add("flex");
+
+    hideSpinner();
 }
 
 // CLOSE MODAL
