@@ -1,129 +1,63 @@
-# 🌟 Welcome To (সহজ সরল সিম্পল) Assignment - 5
+Assignment 5
 
-# **📅 Deadline For 60 marks:** 9th March, 2026 (11:59 pm ⏱️)  
-#  📅 No Deadline For 50 marks  
-# **📅 Deadline For 30 marks:** Any time after 9th March.
+GitHub Issues Tracker
 
----
+A simple GitHub Issues Tracker web application built using HTML, TailwindCSS, DaisyUI, and Vanilla JavaScript. The app allows users to log in, view issues, filter them by status, search issues, and view detailed issue information in a modal. HTML provides the structure of the web pages, while Tailwind CSS and DaisyUI are used to create a modern and responsive design with minimal custom styling. JavaScript handles the dynamic behavior of the application, including login validation, fetching issue data from the API, filtering issues, rendering issue cards, and opening modal windows for detailed views. The project uses the provided GitHub Issues API to retrieve issue information.
 
-# Assignment-05: GitHub Issues Tracker
+API Endpoints Used:
+All Issues: https://phi-lab-server.vercel.app/api/v1/lab/issues
+Single Issue: https://phi-lab-server.vercel.app/api/v1/lab/issue/{id}
+Search Issues: https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q={searchText}
 
-
-### **API Endpoints:**
-###  **All Issues:** 
-  - https://phi-lab-server.vercel.app/api/v1/lab/issues 
-
-
-###  **Single Issue:**
-   - https://phi-lab-server.vercel.app/api/v1/lab/issue/{id}
-
-   - Example: https://phi-lab-server.vercel.app/api/v1/lab/issue/33
+Live Demo
+GitHub Link: https://github.com/Sadiqunnabi17/Assignment5.git
+Live link: https://sadiqunnabi17.github.io/Assignment5/
 
 
-###  **Search Issue:** https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q={searchText}
+Frequently Asked Questions (FAQs)
 
-   - Example:  https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=notifications
+Q1 Difference between var, let, and const
 
+Var is a function scoped that can be redeclared and updated, I can be hoisted with undefined
 
----
+Let is block scoped that can be updated but not redeclared in the same scope
 
-## 📝 Main Requirements
+Const is block scoped that cannot be reassigned after declaration. If used for variables that should not change
 
-## 🎨 Design Part
+Q2 What is the Spread Operator (...)
 
-## Login Page
-- Create a login page containing a logo, title, and sub-title
-- Below that, there will be 2 inputs, a sign-in button, and a demo credential to sign in. Follow the Figma for this page 
-- Styled as per Figma
+The spread operator (`...`) in JS is used to expand elements of an array or properties of an object.
 
-## Main Page: 
+Example: 
+const numbers = [1,2,3];
+const newNumbers = [...numbers,4,5];
 
-### Navbar: 
+It helps copy arrays or merge objects easily.
 
-- Navbar with website logo/name on the left
-- Search input and button on the right
+Q3 Difference between map(), filter(), and forEach()
 
-### Tab Section like Figma: 
+map() Creates a new array by transforming each element.
 
-- 3 tab ( All, Open, Closed) at the top of this section.(**All**, **Open**, **Closed**)
+Example: const doubled = numbers.map(n => n * 2);
 
-- Below the tab, there will be an icon, the issue count, some text on the left, and an open and closed marker on the right
+filter() Creates a new array containing only elements that match a condition.
 
-- Responsiveness: The website should be responsive for mobile devices. It is totally up to you. 
+Example: const even = numbers.filter(n => n % 2 === 0);
 
+forEach() Runs a function for each element but does not return a new array.
 
---- 
+Example: numbers.forEach(n => console.log(n));
 
+Q4 What is an Arrow Function?
 
-## ⚙️ Functionalities
-- In login page, there will be default admin credentials (username, password). You need to sign in using these credentials.
+Arrow functions are a shorter syntax for writing functions in JavaScript.
 
-- Load all issues and display as per Figma
+Example: const add = (a,b) => a + b;
+They are commonly used in callbacks and array methods.
 
-- On clicking on an open or closed tab, it will load the issues data of the related tab and show it in a display-like card in a 4-column layout like Figma. By default, it will show all data 
+Q 5 What are Template Literals?
 
-- Each card shows:
-  - Title
-  - Description
-  - Status
-  - Category
-  - Author
-  - Priority
-  - Label
-  - CreatedAt
-- Clicking on a tree name in a card will open a modal and show all the information about that Issue. 
+Template literals are strings written using backticks () that allow embedding variables and expressions.
 
-### 🚀 Challenges
-
-
-- Show the card Top border based on their category(open, closed), open card will have Green Boder, closed card will have a purple border on top. 
-
-- Loading spinner on data load
-
-- Show active button on changing category names
-
-- Implement Search Functionality and 8 meaningful github commit.  
-
-- Create a readme file and answer this question on your own. Don’t copy-paste from Google or any AI chatbot. 
-    - 1️⃣ What is the difference between var, let, and const?
-    - 2️⃣ What is the spread operator (...)?
-    - 3️⃣ What is the difference between map(), filter(), and forEach()?
-    - 4️⃣ What is an arrow function?
-    - 5️⃣ What are template literals?
-
-
----
-
-## 🛠️ Technology Stack
-
-- **HTML**
-- **CSS** (Vanilla/Tailwind/DaisyUI)
-- **JavaScript** (Vanilla)
-
----
-
-## 🔑 Demo Credentials
-
-```text
-Username: admin
-Password: admin123
-```
-
-
----
-
-### Optional: 
- - No need to show status: Open, Closed styles On modals. 
- - No Need to show icon on labels 
- - No need to apply styles on Priority 
---- 
-
-
-## 📤 What to submit
-
-- **GitHub Repository Link:**
-- **Live Site Link:**
-
----
-
-
+Example: const name = "John";
+const message = `Hello ${name}`;

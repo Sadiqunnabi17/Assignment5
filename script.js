@@ -285,7 +285,7 @@ function renderIssues(issues) {
                 </span>
                 
                 <span>
-                    Issued: ${issue.createdAt.split("T")[0]}
+                    Issued: ${new Date(issue.createdAt).toLocaleDateString()}
                 </span>
             </div>
 
@@ -295,7 +295,7 @@ function renderIssues(issues) {
                 </span>
                 
                 <span>
-                    Updated: ${issue.updatedAt.split("T")[0]}
+                    Updated: ${new Date(issue.createdAt).toLocaleDateString()}
                 </span>
             </div>
         </div>
@@ -308,7 +308,7 @@ function renderIssues(issues) {
 
 }
 
-// SEARCH FUNCTION
+// Search Function
 
 async function searchIssues() {
 
@@ -362,10 +362,10 @@ async function openIssueModal(id) {
     }
 
     document.getElementById("modalAuthor").innerText =
-        "Created by " + issue.author;
+        "Author: " + issue.author;
 
     document.getElementById("modalDate").innerText =
-        new Date(issue.createdAt).toLocaleDateString();
+        "Issue Date: " + new Date(issue.createdAt).toLocaleDateString();
 
     document.getElementById("modalDescription").innerText =
         issue.description;
