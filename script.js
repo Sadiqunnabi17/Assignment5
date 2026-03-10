@@ -10,23 +10,36 @@ function hideSpinner() {
 const API_URL = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 
 // Login Function
-function login() {
+function login(event) {
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    event.preventDefault();
 
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!username || !password) {
+        return; // do nothing if fields empty
+    }
+    
     if (username === "admin" && password === "admin123") {
 
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("mainPage").classList.remove("hidden");
 
-        loadIssues(); // load issues after login
+        loadIssues();
+        
     }
 
     else {
         alert("Invalid Credentials");
     }
 
+}
+
+function formatName(name) {
+    return name
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function setActiveButton(type, button) {
@@ -177,7 +190,7 @@ function renderIssues(issues) {
             borderColor = "border-t-purple-500";
         }
 
-        card.className = `bg-white border-t-4 ${borderColor} rounded-lg p-4 shadow-md cursor-pointer hover:shadow-lg transition`;
+        card.className = `relative bg-white border-t-4 ${borderColor} rounded-lg p-4 shadow-md cursor-pointer hover:shadow-lg transition`;
         card.onclick = () => openIssueModal(issue.id);
 
         // card.className = "bg-white shadow-md rounded p-4 hover:shadow-lg transition";
@@ -253,9 +266,13 @@ function renderIssues(issues) {
 
         <!-- Upper Section -->
 
-        <div class="flex justify-between items-center mb-2">
+        <div class="flex items-center justify-between mb-2">
             <span class="text-lg">
                 ${statusIcon}
+            </span>
+
+            <span class="absolute left-1/2 -translate-x-1/2 text-sm font-semibold text-blue-600">
+                Issue #${issue.id}
             </span>
 
             ${priorityBadge}
@@ -281,7 +298,7 @@ function renderIssues(issues) {
         <div class ="text-sm text-gray-500">
             <div class="flex justify-between">
                 <span>
-                    #${issue.id} by ${issue.author}
+                    Author: ${formatName(issue.author)}
                 </span>
                 
                 <span>
@@ -291,7 +308,7 @@ function renderIssues(issues) {
 
             <div class="flex justify-between mt-1">
                 <span>
-                    Assignee: ${issue.assignee || "Unassigned"}
+                    Assignee: ${formatName(issue.assignee) || "Unassigned"}
                 </span>
                 
                 <span>
@@ -362,7 +379,7 @@ async function openIssueModal(id) {
     }
 
     document.getElementById("modalAuthor").innerText =
-        "Author: " + issue.author;
+        "Author: " + formatName(issue.author);
 
     document.getElementById("modalDate").innerText =
         "Issue Date: " + new Date(issue.createdAt).toLocaleDateString();
@@ -411,7 +428,7 @@ async function openIssueModal(id) {
     });
 
     document.getElementById("modalAssignee").innerText =
-        issue.assignee || "Unassigned";
+        formatName(issue.assignee) || "Unassigned";
 
     const priorityEl = document.getElementById("modalPriority");
 
@@ -444,7 +461,7 @@ function closeModal() {
 }
 
 
-// LOAD ISSUES WHEN PAGE STARTS
+// Load Issues When Page Starts
 window.onload = () => {
     const allBtn = document.querySelector('[data-type="all"]');
     loadIssues("all", allBtn);
@@ -456,4 +473,11 @@ window.onload = () => {
 
             }
         });
-};
+}
+
+document.getElementById("username").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("password").focus();
+    }
+});
