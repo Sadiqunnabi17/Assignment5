@@ -29,7 +29,6 @@ function login(event) {
         loadIssues();
         
     }
-
     else {
         alert("Invalid Credentials");
     }
@@ -42,6 +41,7 @@ function formatName(name) {
         .replace(/\b\w/g, c => c.toUpperCase());
 }
 
+// Counter Section
 function setActiveButton(type, button) {
 
     const buttons = document.querySelectorAll(".filter-btn");
@@ -76,7 +76,6 @@ function setActiveButton(type, button) {
         }
 
     });
-
 
     if (type === "all") {
         button.classList.add("bg-blue-600", "text-white");
@@ -134,8 +133,6 @@ function updateCounter(type, issues) {
     titleElement.classList.add(colorClass);
     countElement.classList.add(colorClass);
 
-    //document.getElementById("issueCount").textContent = count;
-    //document.getElementById("issueTitle").textContent = title;
 }
 
 // Load Issues
@@ -242,37 +239,6 @@ async function searchIssues() {
     hideSpinner();
 }
 
-
-// async function loadIssues(filter = "all", button = null) {
-
-//     showSpinner();
-
-//     if (button) {
-//         setActiveButton(filter, button);
-//     }
-
-//     const response = await fetch(API_URL);
-//     const data = await response.json();
-
-//     await new Promise(resolve => setTimeout(resolve, 400));
-
-//     let issues = data.data;
-//     updateCounter(filter, data.data)
-
-//     if (filter === "open") {
-//         issues = issues.filter(issues => issues.status === "open");
-//     }
-
-//     if (filter === "closed") {
-//         issues = issues.filter(issues => issues.status === "closed");
-//     }
-
-//     renderIssues(issues);
-//     hideSpinner();
-// }
-
-
-
 // Render Issues
 function renderIssues(issues) {
 
@@ -296,8 +262,7 @@ function renderIssues(issues) {
         card.className = `relative bg-white border-t-4 ${borderColor} rounded-lg p-4 shadow-md cursor-pointer hover:shadow-lg transition`;
         card.onclick = () => openIssueModal(issue.id);
 
-        // card.className = "bg-white shadow-md rounded p-4 hover:shadow-lg transition";
-
+        
         /* Status Icon */
         let statusIcon = "";
 
@@ -427,33 +392,6 @@ function renderIssues(issues) {
     });
 
 }
-
-// Search Function
-
-// async function searchIssues() {
-
-//     const input = document.getElementById("searchInput");
-//     const searchText = input.value.trim();
-
-//     if (!searchText) {
-//         const allBtn = document.querySelector('[data-type="all"]');
-//         loadIssues("all", allBtn);
-//         input.value = "";
-//         return;
-//     }
-
-//     const response = await fetch(
-//         `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`
-//     );
-
-//     const data = await response.json();
-
-//     document.getElementById('searchInput').value = '';
-
-//     renderIssues(data.data);
-//     updateCounter("all", data.data);
-
-// }
 
 // Issues Modal
 
