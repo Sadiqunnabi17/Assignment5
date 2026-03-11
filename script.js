@@ -139,36 +139,139 @@ function updateCounter(type, issues) {
 }
 
 // Load Issues
-
 async function loadIssues(filter = "all", button = null) {
-
     showSpinner();
 
     if (button) {
-        setActiveButton(filter, button);
-
+        setActiveButton(filter, button); // Highlight the clicked button
     }
 
-    const response = await fetch(API_URL);
-    const data = await response.json();
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
 
-    await new Promise(resolve => setTimeout(resolve, 400));
+        await new Promise(resolve => setTimeout(resolve, 400)); // simulate loading
 
-    let issues = data.data;
-    updateCounter(filter, data.data)
+        let issues = data.data;
 
-    if (filter === "open") {
-        issues = issues.filter(issues => issues.status === "open");
+        // Filter issues based on type
+        if (filter === "open") {
+            issues = issues.filter(issue => issue.status === "open");
+        } else if (filter === "closed") {
+            issues = issues.filter(issue => issue.status === "closed");
+        }
 
+        // Render the filtered issues
+        renderIssues(issues);
+
+        // Update counter info
+        updateCounter(filter, data.data);
+
+        // Update Open/Closed indicators
+        const openInd = document.getElementById("openIndicator");
+        const openLbl = document.getElementById("openLabel");
+        const closedInd = document.getElementById("closedIndicator");
+        const closedLbl = document.getElementById("closedLabel");
+
+        if (filter === "all") {
+            openInd.style.display = "inline-block";
+            openLbl.style.display = "inline-block";
+            closedInd.style.display = "inline-block";
+            closedLbl.style.display = "inline-block";
+        } else if (filter === "open") {
+            openInd.style.display = "inline-block";
+            openLbl.style.display = "inline-block";
+            closedInd.style.display = "none";
+            closedLbl.style.display = "none";
+        } else if (filter === "closed") {
+            openInd.style.display = "none";
+            openLbl.style.display = "none";
+            closedInd.style.display = "inline-block";
+            closedLbl.style.display = "inline-block";
+        }
+
+    } catch (err) {
+        console.error("Error loading issues:", err);
+        alert("Failed to load issues. Please try again.");
     }
 
-    if (filter === "closed") {
-        issues = issues.filter(issues => issues.status === "closed");
-    }
-
-    renderIssues(issues);
     hideSpinner();
 }
+
+async function searchIssues() {
+    const input = document.getElementById("searchInput");
+    const searchText = input.value.trim();
+
+    if (!searchText) {
+        // If empty search, load all issues
+        const allBtn = document.querySelector('[data-type="all"]');
+        loadIssues("all", allBtn);
+        input.value = "";
+        return;
+    }
+
+    showSpinner();
+
+    try {
+        const response = await fetch(
+            `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`
+        );
+        const data = await response.json();
+
+        renderIssues(data.data);
+        updateCounter("all", data.data);
+
+        // Show both indicators for search results
+        const openInd = document.getElementById("openIndicator");
+        const openLbl = document.getElementById("openLabel");
+        const closedInd = document.getElementById("closedIndicator");
+        const closedLbl = document.getElementById("closedLabel");
+
+        openInd.style.display = "inline-block";
+        openLbl.style.display = "inline-block";
+        closedInd.style.display = "inline-block";
+        closedLbl.style.display = "inline-block";
+
+        input.value = ""; // Clear search input
+
+    } catch (err) {
+        console.error("Search failed:", err);
+        alert("Search failed. Please try again.");
+    }
+
+    hideSpinner();
+}
+
+
+// async function loadIssues(filter = "all", button = null) {
+
+//     showSpinner();
+
+//     if (button) {
+//         setActiveButton(filter, button);
+//     }
+
+//     const response = await fetch(API_URL);
+//     const data = await response.json();
+
+//     await new Promise(resolve => setTimeout(resolve, 400));
+
+//     let issues = data.data;
+//     updateCounter(filter, data.data)
+
+//     if (filter === "open") {
+//         issues = issues.filter(issues => issues.status === "open");
+//     }
+
+//     if (filter === "closed") {
+//         issues = issues.filter(issues => issues.status === "closed");
+//     }
+
+//     renderIssues(issues);
+//     hideSpinner();
+// }
+
+
 
 // Render Issues
 function renderIssues(issues) {
@@ -327,28 +430,30 @@ function renderIssues(issues) {
 
 // Search Function
 
-async function searchIssues() {
+// async function searchIssues() {
 
-    const input = document.getElementById("searchInput");
-    const searchText = input.value.trim();
+//     const input = document.getElementById("searchInput");
+//     const searchText = input.value.trim();
 
-    if (!searchText) {
-        const allBtn = document.querySelector('[data-type="all"]');
-        loadIssues("all", allBtn);
-        input.value = "";
-        return;
-    }
+//     if (!searchText) {
+//         const allBtn = document.querySelector('[data-type="all"]');
+//         loadIssues("all", allBtn);
+//         input.value = "";
+//         return;
+//     }
 
-    const response = await fetch(
-        `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`
-    );
+//     const response = await fetch(
+//         `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`
+//     );
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    renderIssues(data.data);
-    updateCounter("all", data.data);
+//     document.getElementById('searchInput').value = '';
 
-}
+//     renderIssues(data.data);
+//     updateCounter("all", data.data);
+
+// }
 
 // Issues Modal
 

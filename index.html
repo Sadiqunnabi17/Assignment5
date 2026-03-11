@@ -36,7 +36,7 @@
         <input id="password" type="password" placeholder="Enter Password"
             class="w-full border border-gray-300 rounded-md px-3 py-2 mb-4" />
 
-        <button type ="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700">Sign In
+        <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700">Sign In
         </button>
 
         <p class="text-sm text-green-600 mt-4 text-center">
@@ -49,16 +49,17 @@
     <div id="mainPage" class="hidden p-6 w-full max-w-7xl">
 
         <!--Navbar-->
-        <div class="flex justify-between items-center mb-6">
-            <div class="flex gap-2 mb-6">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6"">
+            <div class="flex items-center gap-2">
                 <img src="github-logo.png" alt="logo" class=" bg-gray-200 p-1 rounded-full w-10 h-10">
                 <h1 class="text-2xl font-bold">GitHub Issues Tracker</h1>
             </div>
 
-            <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-green-400"></i>
+            <div class="relative flex items-center gap-2">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-green-400 pointer-events-none"></i>
                 <input id="searchInput" type="text" placeholder="search issues"
-                    class="text-green-400 border rounded border-gray-400 pl-8 pr-3 py-2 w-64" />
+                    class="text-green-400 border border-gray-400 rounded pl-9 pr-3 py-2 w-64" />
                 <button onclick="searchIssues()" class="bg-green-600 text-white px-4 py-2 rounded shadow shadow-green-300
                 hover:bg-green-700 hover:shadow-green-400 transition">Search</button>
             </div>
@@ -97,12 +98,13 @@
                 </div>
 
             </div>
+
             <!-- Right Side Indicators -->
             <div class="flex items-center gap-2 text-sm">
-                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                <p class="text-sm text-gray-500">Open</p>
-                <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
-                <p class="text-sm text-gray-500">Closed</p>
+                <span id="openIndicator" class="w-2 h-2 bg-green-500 rounded-full"></span>
+                <p id="openLabel" class="text-sm text-gray-500">Open</p>
+                <span id="closedIndicator" class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                <p id="closedLabel" class="text-sm text-gray-500">Closed</p>
             </div>
         </div>
 
