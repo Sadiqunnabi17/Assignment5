@@ -20,14 +20,14 @@ function login(event) {
     if (!username || !password) {
         return; // do nothing if fields empty
     }
-    
+
     if (username === "admin" && password === "admin123") {
 
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("mainPage").classList.remove("hidden");
 
         loadIssues();
-        
+
     }
     else {
         alert("Invalid Credentials");
@@ -262,7 +262,7 @@ function renderIssues(issues) {
         card.className = `relative bg-white border-t-4 ${borderColor} rounded-lg p-4 shadow-md cursor-pointer hover:shadow-lg transition`;
         card.onclick = () => openIssueModal(issue.id);
 
-        
+
         /* Status Icon */
         let statusIcon = "";
 
@@ -365,22 +365,22 @@ function renderIssues(issues) {
 
         <div class ="text-sm text-gray-500">
             <div class="flex justify-between">
-                <span>
-                    Author: ${formatName(issue.author)}
+                <span><strong>
+                    Author:</strong> ${formatName(issue.author)}
                 </span>
                 
-                <span>
-                    Issued: ${new Date(issue.createdAt).toLocaleDateString()}
+                <span><strong>
+                    Issued:</strong> ${new Date(issue.createdAt).toLocaleDateString()}
                 </span>
             </div>
 
             <div class="flex justify-between mt-1">
-                <span>
-                    Assignee: ${formatName(issue.assignee) || "Unassigned"}
+                <span><strong>
+                    Assignee:</strong> ${formatName(issue.assignee) || "Unassigned"}
                 </span>
                 
-                <span>
-                    Updated: ${new Date(issue.createdAt).toLocaleDateString()}
+                <span><strong>
+                    Updated:</strong> ${new Date(issue.createdAt).toLocaleDateString()}
                 </span>
             </div>
         </div>
@@ -421,13 +421,13 @@ async function openIssueModal(id) {
         statusEl.className = "bg-purple-600 text-white px-3 py-1 text-sm rounded";
     }
 
-    document.getElementById("modalAuthor").innerText =
-        "Author: " + formatName(issue.author);
+    document.getElementById("modalAuthor").innerHTML =
+        "<strong>Author:</strong> " + formatName(issue.author);
 
-    document.getElementById("modalDate").innerText =
-        "Issue Date: " + new Date(issue.createdAt).toLocaleDateString();
+    document.getElementById("modalDate").innerHTML =
+        "<strong>Issue Date:</strong> " + new Date(issue.createdAt).toLocaleDateString();
 
-    document.getElementById("modalDescription").innerText =
+    document.getElementById("modalDescription").innerHTML =
         issue.description;
 
     const tagsContainer = document.getElementById("modalTags");
@@ -496,7 +496,7 @@ async function openIssueModal(id) {
     hideSpinner();
 }
 
-// CLOSE MODAL
+// Close Modal
 function closeModal() {
     const modal = document.getElementById("issueModal");
     modal.classList.add("hidden");
@@ -518,7 +518,7 @@ window.onload = () => {
         });
 }
 
-document.getElementById("username").addEventListener("keydown", function(e) {
+document.getElementById("username").addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
         e.preventDefault();
         document.getElementById("password").focus();
