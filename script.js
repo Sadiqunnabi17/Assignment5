@@ -195,6 +195,8 @@ async function loadIssues(filter = "all", button = null) {
     hideSpinner();
 }
 
+// Search Issues
+
 async function searchIssues() {
     const input = document.getElementById("searchInput");
     const searchText = input.value.trim();
