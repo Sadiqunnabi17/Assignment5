@@ -382,7 +382,7 @@ function renderIssues(issues) {
                 </span>
                 
                 <span><strong>
-                    Updated:</strong> ${new Date(issue.createdAt).toLocaleDateString()}
+                    Updated:</strong> ${new Date(issue.updatedAt).toLocaleDateString()}
                 </span>
             </div>
         </div>
